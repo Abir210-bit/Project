@@ -10,7 +10,8 @@ import Modify from "./components/Modify";
 import PrivateRoute from "./routes/PrivateRoute";
 import AddUser from "./components/AddUser";
 import Contact from "./components/contact";
-import affectation from "./components/affectation";
+import Affectation from "./components/Affectation";
+import Affectation2 from "./components/Affectation2";
 
 function App() {
   return (
@@ -24,9 +25,11 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/Modify" component={Modify} />
-        <Route path="/Contact" component={Contact} />
-        <Route path="/affectation" component={affectation} />
+        <PrivateRoute path="/Contact" component={Contact} />
+        <PrivateRoute path="/affectation" component={Affectation} />
+        <PrivateRoute path="/affectation2" component={Affectation2} />
         <Route path="/create-user" component={AddUser} />
+        
       </Switch>
     </div>
   );

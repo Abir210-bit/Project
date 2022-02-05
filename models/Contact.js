@@ -28,7 +28,12 @@ const Contact = new Schema({
     adresse: {
         type: String,
        
+    },
+    commercial: {
+        type: String,
+       
     }
+    
 })
 
 module.exports = mongoose.model('Contact', Contact)

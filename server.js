@@ -9,10 +9,12 @@ const connect = require('./config/connect')
 const router = require('./routes/userRoutes')
 
 const router2 = require('./routes/contactRoutes')
+const cors = require('cors');
 
 //2-init the app
 const app = express()
-
+app.use(cors())
+app.options("*", cors());
 //7-middleware to parse data 
 app.use(express.json())
 

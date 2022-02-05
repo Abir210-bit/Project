@@ -66,57 +66,40 @@ router.post('/addcontact', async (req, res) => {
 })
 
 
-//API: "/api/users/login"
-//desc: login the user 
-//access: public
-router.post('/login', async (req, res) => {
-    const {email, password} = req.body
-    try {
-        //check if all fields are not empty
-        if ( !email || !password) {
-            return res.status(404).send({msg: "Please enter your credentials"})
-        }
 
-        // check if user already exists
-        const user = await User.findOne({email})
-
-
-        if (!user) {
-            return res.status(400).send({msg: "bad credentials"})
-        }
-
-        //check password
-        const isMatch = await bcrypt.compare(password, user.password)
-
-        if (!isMatch) {
-            return res.status(400).send({msg:"bad credentials"})
-        }
-
-        //2.generate a token
-        //2.1 create the payload
-        const payload = {
-            id: user._id
-        }
-
-        //2.2 sign the token
-        const token = await jwt.sign(payload, process.env.secretOrKey, {expiresIn: "1 day"})
-
-
-        return res.status(200).send({msg: "User logged-in successfully", user, token})
-    } catch (error) {
-        return res.status(500).send({msg: "Server error"})
-    }
-})
 
 
 //API: "/api/users/"
 //desc: get all users
 //access: public
 router.get("/", (req, res) => {
-    User.find({})
+    Contact.find({})
     .then((result) => res.status(200).send(result))
     .catch((error) => res.status(500).send(error))
 })
+
+router.get("/getContact/:id", (req, res) => {
+    let id_r = req.params.id
+    Contact.findOne({ _id: id_r}, {})
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error))
+})
+
+
+router.put("/upcontact/:id", (req, res) => {
+    const {id_r} = req.params.id;
+    const {commercial }= req.body;
+    const filter = { _id: req.params.id };
+
+     Contact.updateOne(filter, { $set:{commercial} })
+  
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error))
+
+
+
+})
+
 
 // //API: "/api/users/profile"
 // //desc: get personal profile
